@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webflow & Figma Wireframe Kit</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Style for the iframes container */
+        .iframe-container {
+            display: none; /* Initially hidden */
+            flex-direction: column; /* Stack iframes vertically */
+            margin-top: 20px;
+            width: 100%; /* Set to 100% to fill the container */
+        }
+
+        .iframe {
+            border: none;
+            width: 100%; /* Set width to 100% to fill the container */
+            height: 700%; /* Set height to 700% for both iframes */
+            margin-bottom: 30px; /* Add space between iframes */
+        }
+
+        .iframe-message {
+            display: none;
+            font-size: 35px; 
+            font-weight: 600;
+            color: white; 
+            margin-top: 10px;
+            text-align: center;
+            text-shadow: 
+                -1px -1px 0 black,  
+                1px -1px 0 black,  
+                -1px 1px 0 black,  
+                1px 1px 0 black; 
+        }
+
+        /* Style for the progress bar */
+        .progress-container {
+            width: 150px; /* Set a width for the container */
+            height: 100%; /* Allow it to take the full height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px; /* Add margin to push the progress bar down */
+            display: none; /* Hidden initially */
+            margin-left: auto;
+            margin-right: auto; /* Center horizontally */
+        }
+
+        .progress-bar {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            background-color: #f3f3f3;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #4caf50;
+        }
+
+        .progress-bar .circle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 15px solid #e6e6e6;
+            border-top-color: #4caf50;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .progress-bar.completed .circle {
+            animation: none;
+        }
+
+        .progress-bar.completed .circle {
+            border-color: #4caf50;
+            border-top-color: #4caf50;
+        }
+
+        /* Paper blast effect */
+#paper-blast-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* Prevent interaction with the paper confetti */
+    z-index: 9999; /* Ensure it's above everything else */
+    overflow: hidden;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: confetti-fall linear infinite;
+}
+
+/* Animation for confetti fall */
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(-100vh);
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+    }
+}
+
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header style="position: fixed; top: 0; left: 0; width: 100%; background-color: #2e7d32; z-index: 1000;">
+            <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 20px;">
+                <div class="logo"><span class="text">BusyBees</span></div>
+                <nav>
+                    <a href="#" class="text" style="text-decoration: none;">Home</a>
+                    <a href="#" class="text" style="text-decoration: none;">Dashboard</a>
+                    <a href="#" class="text" style="text-decoration: none;">Service</a>
+                </nav>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="text-content">
+                <h1>The Cyber Security Testing for Developers &lt;/&gt;</h1>
+                <p>
+                    The fuzzer identifies directories, files, subdomains.  
+                    It scans for common vulnerabilities and flaws.  
+                    Detailed reports provide actionable insights for improvement.
+                </p>
+                
+                <div class="input-box">
+                    <input type="text" id="url-input" placeholder="Enter URL (e.g., https://example.com)">
+                    <button id="scan-btn" class="btn btn-secondary">Scan</button>
+                </div>
+                <div id="paper-blast-container"></div>
+                <div id="response-message"></div>
+                <!-- Progress bar container now comes after the response message -->
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar">
+                        <div class="circle"></div>
+                        <span id="progress-text">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards">
+                <div class="card">
+                    <img src="sql.png" alt="Image">
+                </div>
+                <div class="card">
+                    <img src="bugs.png" alt="Image">
+                </div>
+                <div class="card">
+                    <img src="search.jpg" alt="Image">
+                </div>
+                <div class="card">
+                    <img src="report.png" alt="Image">
+                </div>
+                <div class="card">
+                    <img src="cross.png" alt="Image">
+                </div>
+                <div class="card">
+                    <img src="check.png" alt="Image">
+                </div>
+            </div>
+        </div>
+
+        <div class="decorative"></div>
+        <br>
+        <br>
+        <!-- Iframe container -->
+        <div class="iframe-container">
+            <div id="webpage-message" class="iframe-message">This is the webpage that you are currently testing!</div>
+            <br>
+            <iframe id="webpage-frame" class="iframe" src="" frameborder="0"></iframe>
+            <br>
+            <div id="report-message" class="iframe-message">This is the security report of the website!</div>
+            <br>
+            <iframe id="report-frame" class="iframe" src="" frameborder="0"></iframe>
+            <br>
+        </div>
+        <br>
+        
+    </div>
+
+    <script>
+        document.getElementById('scan-btn').addEventListener('click', function () {
+            const url = document.getElementById('url-input').value;
+            const responseMessage = document.getElementById('response-message');
+            const iframeContainer = document.querySelector('.iframe-container');
+            const reportIframe = document.getElementById('report-frame');
+            const webpageIframe = document.getElementById('webpage-frame');
+            const webpageMessage = document.getElementById('webpage-message');
+            const reportMessage = document.getElementById('report-message');
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const progressContainer = document.querySelector('.progress-container');
+        
+            if (!url) {
+                responseMessage.innerText = 'URL is required!';
+                return;
+            }
+        
+            responseMessage.innerText = 'Generating report...';
+            const urlPattern = /^https?:\/\/[^\s$.?#].[^\s]*$/gm;
+            if (!urlPattern.test(url)) {
+                responseMessage.innerText = 'Please enter a valid URL starting with http or https!';
+                return;
+            }
+        
+            progressContainer.style.display = 'flex'; // Show progress bar
+        
+            
+
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += 2;
+                progressText.innerText = progress + '%';
+                if (progress >= 100) {
+                    clearInterval(progressInterval);
+                    progressText.innerText = '100%';
+        
+                    // Fetch the report after progress reaches 100%
+                    fetch('http://localhost:5000/generate_report', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ url: url }),
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to generate report');
+                        }
+                        return response.blob();
+                    })
+                    .then(blob => {
+                        const pdfUrl = URL.createObjectURL(blob);
+                        responseMessage.innerText = 'Report generated successfully!';
+                        
+                        // Load the entered URL in the first iframe (webpage)
+                        webpageIframe.src = url;
+                        // Load the PDF report in the second iframe
+                        reportIframe.src = pdfUrl;
+                        startPaperBlast();
+                        // Show the iframe messages
+                        webpageMessage.style.display = 'block'; // Show the webpage message
+                        reportMessage.style.display = 'block'; // Show the report message
+                        
+                        // Show the iframes
+                        iframeContainer.style.display = 'flex'; // Change to flex for proper alignment
+        
+                        // Stop the progress animation and hide progress bar
+                        progressBar.classList.add('completed');
+                        progressContainer.style.display = 'none'; // Hide progress bar after completion
+                    })
+                    .catch(error => {
+                        responseMessage.innerText = `Error generating report: ${error.message}`;
+                        progressContainer.style.display = 'none'; // Hide progress bar in case of error
+                    });
+                }
+            }, 1000); // Increase progress every 100ms
+        
+            // Reset progress bar for future scans
+            progressBar.classList.remove('completed');
+            progressText.innerText = '0%';
+        });
+        
+
+        function startPaperBlast() {
+            const paperBlastContainer = document.getElementById('paper-blast-container');
+            paperBlastContainer.innerHTML = ''; // Clear any previous paper blasts
+            const colors = ['#FFC107', '#FF5722', '#4CAF50', '#03A9F4', '#E91E63', '#9C27B0'];
+            const confettiPieces = 100; // Number of confetti pieces
+            const duration = 6000; // Animation duration in milliseconds
+
+            for (let i = 0; i < confettiPieces; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                paperBlastContainer.appendChild(confetti);
+            }
+
+            setTimeout(() => {
+                paperBlastContainer.innerHTML = ''; // Clear confetti after 6 seconds
+            }, duration);
+        }
+    </script>
+    
+</body>
+</html>
